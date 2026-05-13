@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maryam Torkashvand — Spatial Data Scientist</title>
+  <meta name="description" content="PhD candidate in GIScience & Cartography at University of Iowa. Spatial data engineering, network analysis, historical GIS, and geovisualization.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================
+       VARIABLES & RESET
+    ================================================ */
+    :root {
+      --bg:        #d7cec7;
+      --accent:    #76323f;
+      --box:       #c7d0d7;
+      --hover:     #d7c7d0;
+      --text:      #1a1010;
+      --muted:     #6b5a5a;
+      --light:     #9a8a8a;
+      --r-sm:      4px;
+      --r-md:      6px;
+      --r-lg:      8px;
+      --max-w:     1200px;
+      --nav-h:     64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+      letter-spacing: -0.03em;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+
+    /* ================================================
+       SCROLL PROGRESS BAR
+    ================================================ */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px; width: 0%;
+      background: var(--accent);
+      z-index: 9999;
+      transition: width 0.08s linear;
+    }
+
+    /* ================================================
+       CURSOR GLOW
+    ================================================ */
+    #cursor-glow {
+      pointer-events: none;
+      position: fixed;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(118,50,63,0.07) 0%, transparent 65%);
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      transition: left 0.12s ease, top 0.12s ease;
+    }
+
+    /* ================================================
+       HEADER & NAV
+    ================================================ */
+    header {
+      position: fixed; top: 3px; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(215, 206, 199, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(118,50,63,0.12);
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.25rem, 5vw, 3rem);
+    }
+    .nav-logo {
+      font-size: 0.95rem; font-weight: 800;
+      letter-spacing: -0.04em; color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--text); font-weight: 300; }
+    nav { display: flex; align-items: center; gap: 0.2rem; }
+    nav a {
+      font-size: 0.8rem; font-weight: 500;
+      color: var(--muted); text-decoration: none;
+      padding: 0.38rem 0.7rem; border-radius: var(--r-sm);
+      letter-spacing: -0.02em;
+      transition: color 0.18s, background 0.18s;
+    }
+    nav a:hover, nav a.active { color: var(--accent); background: var(--hover); }
+    .nav-cta {
+      font-weight: 600 !important; color: #fff !important;
+      background: var(--accent) !important;
+      padding: 0.42rem 1rem !important;
+    }
+    .nav-cta:hover { opacity: 0.84 !important; background: var(--accent) !important; }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 0.5rem; background: none; border: none;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px; transition: all 0.3s;
+    }
+    @media (max-width: 780px) {
+      .hamburger { display: flex; }
+      nav {
+        display: none; position: absolute; top: var(--nav-h);
+        left: 0; right: 0; flex-direction: column;
+        background: var(--bg); padding: 0.75rem 1.25rem 1.25rem;
+        border-bottom: 1px solid rgba(118,50,63,0.1); gap: 0.1rem;
+      }
+      nav.open { display: flex; }
+      nav a { border-bottom: 1px solid rgba(118,50,63,0.06); border-radius: 0; padding: 0.65rem 0.5rem; }
+      nav a:last-child { border-bottom: none; }
+    }
+
+    /* ================================================
+       MAIN WRAPPER
+    ================================================ */
+    main { padding-top: calc(var(--nav-h) + 3px); }
+
+    /* ================================================
+       SECTION HELPERS
+    ================================================ */
+    .container {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5vw, 3rem);
+    }
+    .section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+    .section-label {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-size: clamp(1.9rem, 4.5vw, 3.2rem);
+      font-weight: 800; letter-spacing: -0.045em;
+      line-height: 1.1; color: var(--text); margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1rem; color: var(--muted);
+      max-width: 580px; line-height: 1.75; font-weight: 400;
+    }
+
+    /* ================================================
+       REVEAL ANIMATIONS
+    ================================================ */
+    .reveal {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.08s; }
+    .d2 { transition-delay: 0.16s; }
+    .d3 { transition-delay: 0.24s; }
+    .d4 { transition-delay: 0.32s; }
+    .d5 { transition-delay: 0.40s; }
+    .d6 { transition-delay: 0.48s; }
+
+    /* ================================================
+       HERO
+    ================================================ */
+    .hero {
+      min-height: calc(100vh - var(--nav-h) - 3px);
+      display: flex; align-items: center;
+      padding: clamp(3rem, 8vw, 5rem) 0;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--box); border: 1px solid rgba(118,50,63,0.18);
+      border-radius: var(--r-sm); padding: 0.32rem 0.7rem;
+      font-size: 0.72rem; font-weight: 600; color: var(--accent);
+      letter-spacing: 0.02em; margin-bottom: 1.4rem;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); animation: blink 2s infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; } 50% { opacity: 0.35; }
+    }
+    .hero-name {
+      font-size: clamp(3.2rem, 9vw, 7rem);
+      font-weight: 800; letter-spacing: -0.055em;
+      line-height: 0.95; color: var(--text); margin-bottom: 0.35rem;
+    }
+    .hero-name .acc { color: var(--accent); }
+    .hero-role {
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      font-weight: 300; color: var(--muted);
+      letter-spacing: -0.02em; margin-bottom: 1.5rem;
+    }
+    .hero-desc {
+      font-size: 0.975rem; color: var(--muted);
+      max-width: 540px; line-height: 1.8; margin-bottom: 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 0.85rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font-size: 0.85rem; font-weight: 600; letter-spacing: -0.02em;
+      padding: 0.72rem 1.4rem; border-radius: var(--r-sm);
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.18s; font-family: 'Inter', sans-serif;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-secondary {
+      background: var(--box); color: var(--text);
+      border: 1px solid rgba(0,0,0,0.09);
+    }
+    .btn-secondary:hover { background: var(--hover); transform: translateY(-1px); }
+    .hero-scroll-hint {
+      position: absolute; bottom: 2.25rem; left: 0;
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.65rem; color: var(--light);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .hero-scroll-hint::before {
+      content: ''; display: block; width: 1px; height: 38px;
+      background: var(--light); animation: scrollFade 1.8s infinite;
+    }
+    @keyframes scrollFade {
+      0% { opacity: 1; transform: scaleY(1) translateY(0); }
+      100% { opacity: 0; transform: scaleY(0.5) translateY(10px); }
+    }
+
+    /* ================================================
+       STATS
+    ================================================ */
+    .stats-band {
+      background: var(--box);
+      border-top: 1px solid rgba(118,50,63,0.1);
+      border-bottom: 1px solid rgba(118,50,63,0.1);
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      max-width: var(--max-w); margin: 0 auto;
+    }
+    @media (max-width: 600px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat {
+      padding: 2.5rem 1.5rem; text-align: center;
+      border-right: 1px solid rgba(118,50,63,0.1);
+    }
+    .stat:last-child { border-right: none; }
+    @media (max-width: 600px) {
+      .stat:nth-child(2) { border-right: none; }
+      .stat:nth-child(3) { border-top: 1px solid rgba(118,50,63,0.1); }
+    }
+    .stat-num {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 800; letter-spacing: -0.055em;
+      color: var(--accent); line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 0.7rem; font-weight: 500;
+      color: var(--muted); letter-spacing: 0.06em;
+      text-transform: uppercase; margin-top: 0.3rem;
+    }
+
+    /* ================================================
+       SKILLS GRID
+    ================================================ */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem; margin-top: 2.5rem;
+    }
+    .skill-card {
+      background: var(--box); border: 1px solid rgba(118,50,63,0.08);
+      border-radius: var(--r-lg); padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .skill-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(118,50,63,0.1);
+    }
+    .skill-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
+    .skill-name {
+      font-size: 0.88rem; font-weight: 700;
+      color: var(--text); margin-bottom: 0.45rem;
+    }
+    .skill-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.65; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.75rem; }
+    .tag {
+      font-size: 0.67rem; font-weight: 600;
+      color: var(--accent); background: rgba(118,50,63,0.09);
+      padding: 0.22rem 0.55rem; border-radius: var(--r-sm);
+    }
+
+    /* ================================================
+       PROJECTS SECTION
+    ================================================ */
+    .projects-bg {
+      background: rgba(118,50,63,0.035);
+      border-top: 1px solid rgba(118,50,63,0.08);
+      border-bottom: 1px solid rgba(118,50,63,0.08);
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 1.1rem; margin-top: 2.5rem;
+    }
+    @media (max-width: 480px) { .projects-grid { grid-template-columns: 1fr; } }
+    .proj-card {
+      background: var(--box); border: 1px solid rgba(118,50,63,0.08);
+      border-radius: var(--r-lg); padding: 1.75rem;
+      display: flex; flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .proj-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(118,50,63,0.12);
+    }
+    .proj-cat {
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.7rem;
+    }
+    .proj-title {
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: -0.03em; color: var(--text);
+      line-height: 1.35; margin-bottom: 0.7rem;
+    }
+    .proj-desc {
+      font-size: 0.83rem; color: var(--muted);
+      line-height: 1.68; flex: 1;
+    }
+    .proj-foot {
+      margin-top: 1.4rem; display: flex;
+      align-items: center; justify-content: space-between; gap: 0.5rem;
+    }
+    .proj-link {
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--accent); text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .proj-link:hover { text-decoration: underline; }
+    .proj-award {
+      font-size: 0.63rem; font-weight: 600;
+      color: #7a5500; background: rgba(200,150,0,0.13);
+      padding: 0.2rem 0.5rem; border-radius: var(--r-sm);
+      white-space: nowrap;
+    }
+
+    /* ================================================
+       PUBLICATIONS
+    ================================================ */
+    .pub-list { display: flex; flex-direction: column; gap: 0.85rem; margin-top: 2rem; }
+    .pub {
+      background: var(--box); border: 1px solid rgba(118,50,63,0.08);
+      border-radius: var(--r-md); padding: 1.2rem 1.5rem;
+      display: flex; gap: 1.25rem; align-items: flex-start;
+      transition: transform 0.18s;
+    }
+    .pub:hover { transform: translateX(5px); }
+    .pub-yr {
+      font-size: 0.7rem; font-weight: 700; color: var(--accent);
+      letter-spacing: 0.04em; white-space: nowrap; min-width: 34px; padding-top: 0.1rem;
+    }
+    .pub-body {}
+    .pub-title {
+      font-size: 0.855rem; font-weight: 600;
+      color: var(--text); letter-spacing: -0.025em; line-height: 1.4;
+      margin-bottom: 0.3rem;
+    }
+    .pub-meta { font-size: 0.76rem; color: var(--muted); font-style: italic; }
+    .pub-award {
+      display: inline-block; font-size: 0.63rem; font-weight: 700;
+      color: #7a5500; background: rgba(200,150,0,0.13);
+      padding: 0.1rem 0.45rem; border-radius: var(--r-sm);
+      margin-left: 0.4rem; font-style: normal;
+    }
+
+    /* ================================================
+       CTA BAND
+    ================================================ */
+    .cta-band {
+      background: var(--accent); color: #fff;
+      padding: clamp(3.5rem, 8vw, 5.5rem) clamp(1.25rem, 5vw, 3rem);
+      text-align: center;
+    }
+    .cta-band .section-label { color: rgba(255,255,255,0.55); }
+    .cta-band .section-title { color: #fff; margin-bottom: 0.85rem; }
+    .cta-band .section-sub { color: rgba(255,255,255,0.72); max-width: 480px; margin: 0 auto 2.25rem; }
+    .cta-btns { display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; }
+    .btn-white { background: #fff; color: var(--accent); font-weight: 700; }
+    .btn-white:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.14); color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
+
+    /* ================================================
+       FOOTER
+    ================================================ */
+    footer {
+      background: #18100e; color: rgba(255,255,255,0.55);
+      padding: 2.25rem clamp(1.25rem, 5vw, 3rem);
+    }
+    .footer-in {
+      max-width: var(--max-w); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-brand { font-size: 0.875rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+    .footer-note { font-size: 0.72rem; margin-top: 0.2rem; }
+    .footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+    .footer-links a {
+      font-size: 0.78rem; color: rgba(255,255,255,0.45);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll progress -->
+  <div id="scroll-progress"></div>
+
+  <!-- Cursor glow (desktop) -->
+  <div id="cursor-glow"></div>
+
+  <!-- ==================== HEADER ==================== -->
+  <header>
+    <a href="index.html" class="nav-logo">MT<span> · Maryam Torkashvand</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="main-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="experiences.html">Experience</a>
+      <a href="competencies.html">Competencies</a>
+      <a href="projects/index.html">Projects</a>
+      <a href="contact.html" class="nav-cta">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ==================== HERO ==================== -->
+    <div class="container">
+      <section class="hero">
+        <div>
+          <div class="hero-badge reveal">University of Iowa &nbsp;·&nbsp; PhD Candidate</div>
+          <h1 class="hero-name reveal d1">
+            Maryam<br><span class="acc">Torkashvand</span>
+          </h1>
+          <p class="hero-role reveal d2">Spatial Data Scientist &amp; GIScience Researcher</p>
+          <p class="hero-desc reveal d3">
+            I build large-scale geospatial pipelines, map historical migration networks, and turn complex spatial data into compelling research and visualizations. Currently finishing my PhD in GIScience &amp; Cartography at the University of Iowa.
+          </p>
+          <div class="hero-actions reveal d4">
+            <a href="projects/index.html" class="btn btn-primary">View Projects →</a>
+            <a href="about.html" class="btn btn-secondary">About Me</a>
+            <a href="contact.html" class="btn btn-secondary">Contact</a>
+          </div>
+        </div>
+        <div class="hero-scroll-hint">scroll</div>
+      </section>
+    </div>
+
+    <!-- ==================== STATS ==================== -->
+    <div class="stats-band">
+      <div class="stats-grid">
+        <div class="stat reveal">
+          <div class="stat-num" data-target="10">0</div>
+          <div class="stat-lbl">Publications</div>
+        </div>
+        <div class="stat reveal d1">
+          <div class="stat-num" data-target="20">0</div>
+          <div class="stat-lbl">Conference Talks</div>
+        </div>
+        <div class="stat reveal d2">
+          <div class="stat-num" data-target="280">0</div>
+          <div class="stat-lbl">Million Records Processed</div>
+        </div>
+        <div class="stat reveal d3">
+          <div class="stat-num" data-target="5">0</div>
+          <div class="stat-lbl">Years in GIS</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SKILLS ==================== -->
+    <div class="section">
+      <div class="container">
+        <p class="section-label reveal">What I Do</p>
+        <h2 class="section-title reveal d1">Spatial expertise<br>across domains</h2>
+        <p class="section-sub reveal d2">From building spatial data pipelines to designing interactive maps and publishing peer-reviewed research — I work across the full stack of geospatial science.</p>
+        <div class="skills-grid">
+          <div class="skill-card reveal d1">
+            <div class="skill-icon">🗺️</div>
+            <div class="skill-name">Spatial Data Engineering</div>
+            <p class="skill-desc">Building repeatable Python + PostgreSQL/PostGIS pipelines to clean, geocode, and validate large-scale spatial datasets at population scale.</p>
+            <div class="tags">
+              <span class="tag">Python</span><span class="tag">PostGIS</span>
+              <span class="tag">Geocoding</span><span class="tag">ETL</span>
+            </div>
+          </div>
+          <div class="skill-card reveal d2">
+            <div class="skill-icon">🕸️</div>
+            <div class="skill-name">Network &amp; Spatial Analysis</div>
+            <p class="skill-desc">Analyzing spatial-social networks, migration patterns, and kinship structures using graph algorithms and community detection methods.</p>
+            <div class="tags">
+              <span class="tag">NetworkX</span><span class="tag">Graph Theory</span>
+              <span class="tag">Migration</span>
+            </div>
+          </div>
+          <div class="skill-card reveal d3">
+            <div class="skill-icon">📊</div>
+            <div class="skill-name">Geovisualization &amp; Cartography</div>
+            <p class="skill-desc">Creating publication-quality maps, animated web visualizations, and interactive maps that communicate spatial patterns to broad audiences.</p>
+            <div class="tags">
+              <span class="tag">D3.js</span><span class="tag">ArcGIS</span>
+              <span class="tag">Cartography</span>
+            </div>
+          </div>
+          <div class="skill-card reveal d4">
+            <div class="skill-icon">🤖</div>
+            <div class="skill-name">AI &amp; Machine Learning</div>
+            <p class="skill-desc">Applying LLMs with human-in-the-loop validation, evolutionary optimization, and machine learning methods to complex geospatial problems.</p>
+            <div class="tags">
+              <span class="tag">LLM Validation</span><span class="tag">Scikit-learn</span>
+              <span class="tag">Optimization</span>
+            </div>
+          </div>
+          <div class="skill-card reveal d1">
+            <div class="skill-icon">📜</div>
+            <div class="skill-name">Historical GIS</div>
+            <p class="skill-desc">Processing historical census records, crowd-sourced family trees, and 19th-century US geographic data to study population dynamics at scale.</p>
+            <div class="tags">
+              <span class="tag">Historical Data</span><span class="tag">Census</span>
+              <span class="tag">Toponymy</span>
+            </div>
+          </div>
+          <div class="skill-card reveal d2">
+            <div class="skill-icon">💧</div>
+            <div class="skill-name">Environmental GIS</div>
+            <p class="skill-desc">GIS-based modeling for groundwater vulnerability and environmental risk assessment, integrating multi-criteria decision-making and optimization.</p>
+            <div class="tags">
+              <span class="tag">DRASTIC</span><span class="tag">GIS Modeling</span>
+              <span class="tag">Risk Assessment</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PROJECTS ==================== -->
+    <div class="projects-bg">
+      <div class="section">
+        <div class="container">
+          <p class="section-label reveal">Selected Work</p>
+          <h2 class="section-title reveal d1">Featured Projects</h2>
+          <p class="section-sub reveal d2">A selection of research, data engineering, and visualization projects.</p>
+
+          <div class="projects-grid">
+            <div class="proj-card reveal d1">
+              <div class="proj-cat">Geocoding · NLP · Big Data</div>
+              <div class="proj-title">Hierarchical Toponym Resolution for 25M+ Historical Records</div>
+              <p class="proj-desc">A multi-step framework combining hierarchical geographic matching and LLM-based validation to resolve unstructured birthplace fields in crowd-sourced genealogical data spanning 1850–1920.</p>
+              <div class="proj-foot">
+                <a href="projects/index.html#toponym" class="proj-link">View Project →</a>
+                <span class="proj-award">🏆 Best Paper Award</span>
+              </div>
+            </div>
+            <div class="proj-card reveal d2">
+              <div class="proj-cat">Data Engineering · Migration</div>
+              <div class="proj-title">US Historical Migration Networks (1850–1920)</div>
+              <p class="proj-desc">Built Python + PostGIS pipelines to clean 280M historical place records, then mapped migration patterns and kinship networks to study how Americans moved during the settlement period.</p>
+              <div class="proj-foot">
+                <a href="projects/index.html#migration" class="proj-link">View Project →</a>
+              </div>
+            </div>
+            <div class="proj-card reveal d3">
+              <div class="proj-cat">Geovisualization · StoryMap</div>
+              <div class="proj-title">Rivers &amp; Risks: Interactive Watershed StoryMap</div>
+              <p class="proj-desc">NSF-funded interactive story map communicating river water-quality risk and watershed pollution patterns to stakeholders and vulnerable communities across Iowa.</p>
+              <div class="proj-foot">
+                <a href="https://storymaps.arcgis.com/stories/64211237ea99456ab8b2de09aa9a35f9" target="_blank" rel="noopener" class="proj-link">View StoryMap ↗</a>
+              </div>
+            </div>
+            <div class="proj-card reveal d4">
+              <div class="proj-cat">Web Mapping · D3.js · Animation</div>
+              <div class="proj-title">Animated Iowa Population &amp; Transportation Map</div>
+              <p class="proj-desc">Animated D3.js map showing Iowa's changing population density from 1850–1920, tracing the shift from river-dominated to railroad- and road-shaped settlement patterns.</p>
+              <div class="proj-foot">
+                <a href="https://github.com/Maryamtd/BlueGap2024" target="_blank" rel="noopener" class="proj-link">View on GitHub ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align:center; margin-top: 2.5rem;" class="reveal">
+            <a href="projects/index.html" class="btn btn-secondary">See All Projects →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PUBLICATIONS ==================== -->
+    <div class="section">
+      <div class="container">
+        <p class="section-label reveal">Research</p>
+        <h2 class="section-title reveal d1">Selected Publications</h2>
+
+        <div class="pub-list">
+          <div class="pub reveal d1">
+            <div class="pub-yr">2025</div>
+            <div class="pub-body">
+              <div class="pub-title">US migration from 1850 to 1920: A comparison of family trees with linked census data</div>
+              <div class="pub-meta">Historical Methods: A Journal of Quantitative and Interdisciplinary History — Koylu, Kasakoff, Torkashvand</div>
+            </div>
+          </div>
+          <div class="pub reveal d2">
+            <div class="pub-yr">2025</div>
+            <div class="pub-body">
+              <div class="pub-title">Settlement and the intergenerational dispersion of kin as a spatial process in the 19th-century US</div>
+              <div class="pub-meta">The History of the Family — Koylu, Kasakoff, Torkashvand</div>
+            </div>
+          </div>
+          <div class="pub reveal d3">
+            <div class="pub-yr">2024</div>
+            <div class="pub-body">
+              <div class="pub-title">A Hierarchical Approach for Geocoding Birthplaces in Temporally Continuous Crowd-Sourced Family Tree Data <span class="pub-award">Best Paper</span></div>
+              <div class="pub-meta">CaGIS + UCGIS Symposium 2024 — Torkashvand &amp; Koylu</div>
+            </div>
+          </div>
+          <div class="pub reveal d4">
+            <div class="pub-yr">2023</div>
+            <div class="pub-body">
+              <div class="pub-title">Groundwater Vulnerability to Nitrate Contamination from Fertilizers Using Modified DRASTIC Frameworks</div>
+              <div class="pub-meta">Water, 15(17):3134 — Torkashvand, Neshat, Javadi, Yousefi, Berndtsson</div>
+            </div>
+          </div>
+          <div class="pub reveal d5">
+            <div class="pub-yr">2021</div>
+            <div class="pub-body">
+              <div class="pub-title">New hybrid evolutionary algorithm for optimizing index-based groundwater vulnerability assessment</div>
+              <div class="pub-meta">Journal of Hydrology, 598 — Torkashvand, Neshat, Javadi, Pradhan</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center; margin-top: 2rem;" class="reveal">
+          <a href="https://scholar.google.com/citations?user=iinZDtAAAAAJ&hl=en" target="_blank" rel="noopener" class="btn btn-secondary">All Publications on Google Scholar ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== CTA ==================== -->
+    <div class="cta-band">
+      <div style="max-width: var(--max-w); margin: 0 auto;">
+        <p class="section-label">Let's Work Together</p>
+        <h2 class="section-title">Open to research,<br>consulting &amp; collaboration</h2>
+        <p class="section-sub">Whether you need a spatial data scientist, GIS researcher, or visualization consultant — I'd love to connect.</p>
+        <div class="cta-btns">
+          <a href="contact.html" class="btn btn-white">Get in Touch</a>
+          <a href="mailto:torkashvand20@gmail.com" class="btn btn-ghost">torkashvand20@gmail.com</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="footer-in">
+      <div>
+        <div class="footer-brand">Maryam Torkashvand</div>
+        <div class="footer-note">PhD Candidate, GIScience &amp; Cartography · University of Iowa</div>
+      </div>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/maryam-torkashvand/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/Maryamtd" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://scholar.google.com/citations?user=iinZDtAAAAAJ&hl=en" target="_blank" rel="noopener">Scholar</a>
+        <a href="about.html">About</a>
+        <a href="experiences.html">Experience</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script>
+    // Scroll progress bar
+    window.addEventListener('scroll', () => {
+      const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('scroll-progress').style.width = pct + '%';
+    });
+
+    // Cursor glow (desktop only)
+    const glow = document.getElementById('cursor-glow');
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', e => {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top  = e.clientY + 'px';
+      });
+    } else { glow.style.display = 'none'; }
+
+    // Mobile nav
+    function toggleNav() {
+      document.getElementById('main-nav').classList.toggle('open');
+    }
+
+    // Intersection observer — reveal on scroll
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Trigger hero reveals after tiny delay
+    setTimeout(() => {
+      document.querySelectorAll('.hero .reveal, .hero-badge').forEach(el => el.classList.add('visible'));
+    }, 80);
+
+    // Animated counters — easeOutQuart
+    function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+    function animateCount(el, target, dur = 1800) {
+      const t0 = performance.now();
+      const suffix = el.dataset.suffix || '';
+      (function tick(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        el.textContent = Math.round(easeOutQuart(p) * target) + (p === 1 ? suffix : '');
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }
+    const cio = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          animateCount(e.target, parseInt(e.target.dataset.target));
+          cio.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('[data-target]').forEach(el => cio.observe(el));
+  </script>
+
+</body>
+</html>

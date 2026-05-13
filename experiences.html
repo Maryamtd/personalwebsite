@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experience — Maryam Torkashvand</title>
+  <meta name="description" content="Professional experience of Maryam Torkashvand — research, teaching, data analysis, and GIS roles.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #d7cec7; --accent: #76323f; --box: #c7d0d7;
+      --hover: #d7c7d0; --text: #1a1010; --muted: #6b5a5a;
+      --light: #9a8a8a; --r-sm: 4px; --r-md: 6px; --r-lg: 8px;
+      --max-w: 1200px; --nav-h: 64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.6; letter-spacing: -0.03em; overflow-x: hidden; }
+    a { color: inherit; }
+    #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: var(--accent); z-index: 9999; transition: width 0.08s linear; }
+    #cursor-glow { pointer-events: none; position: fixed; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, rgba(118,50,63,0.07) 0%, transparent 65%); transform: translate(-50%, -50%); z-index: 0; transition: left 0.12s ease, top 0.12s ease; }
+    header { position: fixed; top: 3px; left: 0; right: 0; height: var(--nav-h); background: rgba(215,206,199,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(118,50,63,0.12); z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(1.25rem,5vw,3rem); }
+    .nav-logo { font-size: 0.95rem; font-weight: 800; letter-spacing: -0.04em; color: var(--accent); text-decoration: none; }
+    .nav-logo span { color: var(--text); font-weight: 300; }
+    nav { display: flex; align-items: center; gap: 0.2rem; }
+    nav a { font-size: 0.8rem; font-weight: 500; color: var(--muted); text-decoration: none; padding: 0.38rem 0.7rem; border-radius: var(--r-sm); letter-spacing: -0.02em; transition: color 0.18s, background 0.18s; }
+    nav a:hover, nav a.active { color: var(--accent); background: var(--hover); }
+    .nav-cta { font-weight: 600 !important; color: #fff !important; background: var(--accent) !important; padding: 0.42rem 1rem !important; }
+    .nav-cta:hover { opacity: 0.84 !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 0.5rem; background: none; border: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+    @media (max-width: 780px) {
+      .hamburger { display: flex; }
+      nav { display: none; position: absolute; top: var(--nav-h); left: 0; right: 0; flex-direction: column; background: var(--bg); padding: 0.75rem 1.25rem 1.25rem; border-bottom: 1px solid rgba(118,50,63,0.1); gap: 0.1rem; }
+      nav.open { display: flex; }
+      nav a { border-bottom: 1px solid rgba(118,50,63,0.06); border-radius: 0; padding: 0.65rem 0.5rem; }
+      nav a:last-child { border-bottom: none; }
+    }
+    main { padding-top: calc(var(--nav-h) + 3px); }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 clamp(1.25rem,5vw,3rem); }
+    .section { padding: clamp(3.5rem,8vw,6rem) 0; }
+    .section-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.7rem; }
+    .section-title { font-size: clamp(1.9rem,4.5vw,3.2rem); font-weight: 800; letter-spacing: -0.045em; line-height: 1.1; color: var(--text); margin-bottom: 1rem; }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.08s; } .d2 { transition-delay: 0.16s; }
+    .d3 { transition-delay: 0.24s; } .d4 { transition-delay: 0.32s; }
+
+    /* PAGE HEADER */
+    .page-top { padding: clamp(3rem,8vw,5rem) 0 2rem; border-bottom: 1px solid rgba(118,50,63,0.1); }
+    .page-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--box); border: 1px solid rgba(118,50,63,0.18); border-radius: var(--r-sm); padding: 0.32rem 0.7rem; font-size: 0.72rem; font-weight: 600; color: var(--accent); letter-spacing: 0.02em; margin-bottom: 1.2rem; }
+    .page-h { font-size: clamp(2.5rem,6vw,4.5rem); font-weight: 800; letter-spacing: -0.05em; line-height: 1; color: var(--text); margin-bottom: 0.75rem; }
+    .page-h .acc { color: var(--accent); }
+    .page-sub { font-size: 1rem; color: var(--muted); max-width: 540px; line-height: 1.75; }
+
+    /* TIMELINE */
+    .timeline { margin-top: 2.5rem; }
+    .timeline-item {
+      display: grid; grid-template-columns: 200px 1fr;
+      gap: 0 2.5rem; padding: 2rem 0;
+      border-bottom: 1px solid rgba(118,50,63,0.08);
+      position: relative;
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    @media (max-width: 620px) { .timeline-item { grid-template-columns: 1fr; gap: 0.75rem; } }
+
+    .tl-left {}
+    .tl-dates { font-size: 0.73rem; font-weight: 700; color: var(--accent); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.35rem; }
+    .tl-org { font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+    .tl-loc { font-size: 0.72rem; color: var(--light); margin-top: 0.15rem; font-style: italic; }
+
+    .tl-right {}
+    .tl-role { font-size: 1.1rem; font-weight: 700; color: var(--text); letter-spacing: -0.035em; margin-bottom: 0.6rem; }
+    .tl-bullets { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; }
+    .tl-bullets li {
+      font-size: 0.845rem; color: var(--muted); line-height: 1.65;
+      padding-left: 1rem; position: relative;
+    }
+    .tl-bullets li::before {
+      content: '—'; position: absolute; left: 0;
+      color: var(--accent); font-weight: 600;
+    }
+    .tl-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.9rem; }
+    .tag { font-size: 0.67rem; font-weight: 600; color: var(--accent); background: rgba(118,50,63,0.09); padding: 0.22rem 0.55rem; border-radius: var(--r-sm); }
+
+    /* SECTION DIVIDER */
+    .section-divider {
+      background: var(--box);
+      border-top: 1px solid rgba(118,50,63,0.1);
+      border-bottom: 1px solid rgba(118,50,63,0.1);
+    }
+
+    /* LEADERSHIP */
+    .leadership-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 0; }
+    .lead-item {
+      display: grid; grid-template-columns: 160px 1fr;
+      gap: 0 2rem; padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(118,50,63,0.08);
+    }
+    .lead-item:last-child { border-bottom: none; }
+    @media (max-width: 560px) { .lead-item { grid-template-columns: 1fr; gap: 0.35rem; } }
+    .lead-dates { font-size: 0.72rem; font-weight: 700; color: var(--accent); letter-spacing: 0.04em; padding-top: 0.1rem; white-space: nowrap; }
+    .lead-role { font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem; }
+    .lead-org { font-size: 0.78rem; color: var(--muted); }
+
+    /* FOOTER */
+    footer { background: #18100e; color: rgba(255,255,255,0.55); padding: 2.25rem clamp(1.25rem,5vw,3rem); }
+    .footer-in { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-brand { font-size: 0.875rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+    .footer-note { font-size: 0.72rem; margin-top: 0.2rem; }
+    .footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.78rem; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: #fff; }
+  </style>
+</head>
+<body>
+
+  <div id="scroll-progress"></div>
+  <div id="cursor-glow"></div>
+
+  <header>
+    <a href="index.html" class="nav-logo">MT<span> · Maryam Torkashvand</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="main-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="experiences.html" class="active">Experience</a>
+      <a href="competencies.html">Competencies</a>
+      <a href="projects/index.html">Projects</a>
+      <a href="contact.html" class="nav-cta">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- PAGE HEADER -->
+    <div class="container">
+      <div class="page-top section" style="padding-bottom: 2rem;">
+        <div class="page-tag reveal">Professional Experience</div>
+        <h1 class="page-h reveal d1">Research<br>&amp; <span class="acc">Teaching</span></h1>
+        <p class="page-sub reveal d2">Five years of hands-on experience across research, spatial data engineering, teaching, and stakeholder communication — at the intersection of GIScience, history, and the environment.</p>
+      </div>
+    </div>
+
+    <!-- RESEARCH EXPERIENCE -->
+    <div class="section">
+      <div class="container">
+        <p class="section-label reveal">Research Roles</p>
+        <h2 class="section-title reveal d1">Research Experience</h2>
+
+        <div class="timeline">
+
+          <div class="timeline-item reveal d1">
+            <div class="tl-left">
+              <div class="tl-dates">Feb 2026 – Present</div>
+              <div class="tl-org">Graduate College<br>University of Iowa</div>
+              <div class="tl-loc">Iowa City, IA</div>
+            </div>
+            <div class="tl-right">
+              <div class="tl-role">Graduate Research Fellow</div>
+              <ul class="tl-bullets">
+                <li>Leading a project to develop a new spatial microsimulation model of population and kinship networks in the United States from 1850 to 1920, using large-scale family tree data and demographic indices from census records.</li>
+                <li>Drafting a research paper describing the model framework and preliminary results for submission to a peer-reviewed journal.</li>
+              </ul>
+              <div class="tl-tags">
+                <span class="tag">Microsimulation</span><span class="tag">Python</span>
+                <span class="tag">PostGIS</span><span class="tag">Kinship Networks</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal d2">
+            <div class="tl-left">
+              <div class="tl-dates">May 2023 – Jan 2026</div>
+              <div class="tl-org">School of Earth, Environment, and Sustainability<br>University of Iowa</div>
+              <div class="tl-loc">Iowa City, IA</div>
+            </div>
+            <div class="tl-right">
+              <div class="tl-role">Graduate Research Assistant</div>
+              <ul class="tl-bullets">
+                <li>Built repeatable Python + PostgreSQL/PostGIS pipelines to clean, standardize, and geocode 280M historical place records into analysis-ready county/city outputs with full validation summaries.</li>
+                <li>Produced high-quality maps, diagrams, and visualizations of mobility patterns and spatial networks for peer-reviewed journals, grant proposals, and international conference presentations.</li>
+                <li>Integrated and validated multi-source spatial reference datasets and modified spatial algorithms to produce defensible fine-resolution geocoding results.</li>
+                <li>Improved a 60M-node spatial network via rule-based deduplication and data imputation, recovering 10M connections for downstream spatial modeling.</li>
+                <li>Wrote manuscripts and presented research at international conferences in GIS and computational social science.</li>
+              </ul>
+              <div class="tl-tags">
+                <span class="tag">Python</span><span class="tag">PostgreSQL/PostGIS</span>
+                <span class="tag">Geocoding</span><span class="tag">Network Analysis</span>
+                <span class="tag">Cartography</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal d3">
+            <div class="tl-left">
+              <div class="tl-dates">May 2024 – Aug 2024</div>
+              <div class="tl-org">Hydroscience &amp; Engineering Dept.<br>University of Iowa</div>
+              <div class="tl-loc">Iowa City, IA</div>
+            </div>
+            <div class="tl-right">
+              <div class="tl-role">Graduate Research Associate</div>
+              <ul class="tl-bullets">
+                <li>Built the "Rivers and Risks" StoryMap using ArcGIS Online and Survey123 to support outreach and stakeholder communication for the NSF-funded BluGAP project.</li>
+                <li>Translated engineer analysis of water quality risk assessments into maps, visualizations, and narratives accessible to broad public audiences.</li>
+                <li>Created an animated map of Iowa population growth and transportation development using JavaScript and D3.js, illustrating change from 1850 to 1920.</li>
+              </ul>
+              <div class="tl-tags">
+                <span class="tag">ArcGIS Online</span><span class="tag">StoryMaps</span>
+                <span class="tag">D3.js</span><span class="tag">Survey123</span>
+                <span class="tag">Science Communication</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal d4">
+            <div class="tl-left">
+              <div class="tl-dates">Apr 2014 – Mar 2015</div>
+              <div class="tl-org">RassadIran Surveying Company</div>
+              <div class="tl-loc">Tehran, Iran</div>
+            </div>
+            <div class="tl-right">
+              <div class="tl-role">Spatial Data Analyst</div>
+              <ul class="tl-bullets">
+                <li>Evaluated elevation and surveying errors in road construction projects and communicated results to engineering teams for corrective action.</li>
+                <li>Supported cadastral map development for Tehran in ArcGIS by digitizing parcel boundaries and base layers for infrastructure planning.</li>
+              </ul>
+              <div class="tl-tags">
+                <span class="tag">ArcGIS</span><span class="tag">Cadastral Mapping</span>
+                <span class="tag">Surveying</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- TEACHING -->
+    <div class="section-divider">
+      <div class="section">
+        <div class="container">
+          <p class="section-label reveal">Teaching</p>
+          <h2 class="section-title reveal d1">Teaching Experience</h2>
+
+          <div class="timeline">
+            <div class="timeline-item reveal d1">
+              <div class="tl-left">
+                <div class="tl-dates">Aug 2022 – May 2023</div>
+                <div class="tl-org">Dept. of Geographical and Sustainability Sciences<br>University of Iowa</div>
+                <div class="tl-loc">Iowa City, IA</div>
+              </div>
+              <div class="tl-right">
+                <div class="tl-role">Teaching Assistant — Foundations of GIS</div>
+                <ul class="tl-bullets">
+                  <li>Taught two hands-on GIS laboratory sections per week, covering spatial analysis workflows and cartographic outputs in ArcGIS Pro.</li>
+                  <li>Mentored 42+ students by debugging and troubleshooting project issues involving vector and raster data, spatial analysis, and map design.</li>
+                  <li>Developed supplementary instructional materials to support student learning and project completion.</li>
+                </ul>
+                <div class="tl-tags">
+                  <span class="tag">ArcGIS Pro</span><span class="tag">GIS Instruction</span>
+                  <span class="tag">Mentoring</span><span class="tag">Spatial Analysis</span>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item reveal d2">
+              <div class="tl-left">
+                <div class="tl-dates">Fall 2018</div>
+                <div class="tl-org">Islamic Azad University</div>
+                <div class="tl-loc">Tehran, Iran</div>
+              </div>
+              <div class="tl-right">
+                <div class="tl-role">GIS Software Training Instructor</div>
+                <ul class="tl-bullets">
+                  <li>Designed and led a GIS software training course for students, covering core spatial analysis and mapping workflows.</li>
+                </ul>
+                <div class="tl-tags">
+                  <span class="tag">GIS Training</span><span class="tag">Instruction</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADERSHIP & SERVICE -->
+    <div class="section">
+      <div class="container">
+        <p class="section-label reveal">Service</p>
+        <h2 class="section-title reveal d1">Leadership &amp; Service</h2>
+
+        <div class="leadership-list">
+          <div class="lead-item reveal d1">
+            <div class="lead-dates">Aug 2025 – Present</div>
+            <div>
+              <div class="lead-role">Senator, Graduate Student Senate</div>
+              <div class="lead-org">University of Iowa</div>
+            </div>
+          </div>
+          <div class="lead-item reveal d2">
+            <div class="lead-dates">Aug 2024 – May 2025</div>
+            <div>
+              <div class="lead-role">GIS Lab Representative, Geography Graduate Student Organization</div>
+              <div class="lead-org">University of Iowa</div>
+            </div>
+          </div>
+          <div class="lead-item reveal d3">
+            <div class="lead-dates">Summer 2023, 2024</div>
+            <div>
+              <div class="lead-role">Mentor, Secondary Student Training Program (SSTP)</div>
+              <div class="lead-org">University of Iowa</div>
+            </div>
+          </div>
+          <div class="lead-item reveal d4">
+            <div class="lead-dates">March 2024</div>
+            <div>
+              <div class="lead-role">Invited Speaker — Spatiotemporal Dynamics of a Meta-Coupled World</div>
+              <div class="lead-org">IGUIDE Virtual Center</div>
+            </div>
+          </div>
+          <div class="lead-item reveal d1">
+            <div class="lead-dates">Aug 2024, 2025</div>
+            <div>
+              <div class="lead-role">Student Leadership Trainer, Graduate Student Orientation</div>
+              <div class="lead-org">University of Iowa</div>
+            </div>
+          </div>
+          <div class="lead-item reveal d2">
+            <div class="lead-dates">Fall 2023</div>
+            <div>
+              <div class="lead-role">Guest Lecturer, GEOG 2050: Foundations of GIS</div>
+              <div class="lead-org">University of Iowa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-in">
+      <div>
+        <div class="footer-brand">Maryam Torkashvand</div>
+        <div class="footer-note">PhD Candidate, GIScience &amp; Cartography · University of Iowa</div>
+      </div>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/maryam-torkashvand/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/Maryamtd" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://scholar.google.com/citations?user=iinZDtAAAAAJ&hl=en" target="_blank" rel="noopener">Scholar</a>
+        <a href="index.html">Home</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('scroll-progress').style.width = pct + '%';
+    });
+    const glow = document.getElementById('cursor-glow');
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; });
+    } else { glow.style.display = 'none'; }
+    function toggleNav() { document.getElementById('main-nav').classList.toggle('open'); }
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    setTimeout(() => document.querySelectorAll('.page-top .reveal').forEach(el => el.classList.add('visible')), 80);
+  </script>
+</body>
+</html>
