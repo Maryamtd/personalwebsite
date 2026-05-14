@@ -66,7 +66,6 @@ Squared/luxe aesthetic — avoid rounded pills:
 
 - Scroll-triggered reveal animations via Intersection Observer
 - Animated counters with easeOutQuart easing
-- Mouse-following cursor glow effect (desktop only)
 - Scroll progress indicator in header
 - Smooth scroll navigation
 - Fully responsive down to mobile

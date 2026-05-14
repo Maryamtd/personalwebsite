@@ -13,7 +13,7 @@
       --bg: #d7cec7; --accent: #76323f; --box: #c7d0d7;
       --hover: #d7c7d0; --text: #1a1010; --muted: #6b5a5a;
       --light: #9a8a8a; --r-sm: 4px; --r-md: 6px; --r-lg: 8px;
-      --max-w: 1200px; --nav-h: 64px;
+      --max-w: 1140px; --nav-h: 64px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -28,14 +28,6 @@
       position: fixed; top: 0; left: 0; height: 3px; width: 0%;
       background: var(--accent); z-index: 9999; transition: width 0.08s linear;
     }
-    #cursor-glow {
-      pointer-events: none; position: fixed;
-      width: 480px; height: 480px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(118,50,63,0.07) 0%, transparent 65%);
-      transform: translate(-50%, -50%); z-index: 0;
-      transition: left 0.12s ease, top 0.12s ease;
-    }
-
     /* NAV */
     header {
       position: fixed; top: 3px; left: 0; right: 0;
@@ -103,15 +95,18 @@
     .bio-text { font-size: 0.95rem; color: var(--muted); line-height: 1.8; }
     .bio-text + .bio-text { margin-top: 1rem; }
 
-    /* PHOTO PLACEHOLDER */
+    /* PHOTO */
     .photo-box {
-      background: var(--box); border-radius: var(--r-lg);
-      aspect-ratio: 3/4; max-height: 420px;
-      display: flex; align-items: center; justify-content: center;
-      border: 1px solid rgba(118,50,63,0.1);
+      border-radius: var(--r-lg);
       overflow: hidden;
+      border: 1px solid rgba(118,50,63,0.1);
+      max-height: 480px;
     }
-    .photo-box span { font-size: 0.8rem; color: var(--light); letter-spacing: 0.04em; }
+    .photo-box img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top;
+      display: block;
+    }
 
     /* QUICK LINKS */
     .quick-links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.75rem; }
@@ -190,18 +185,16 @@
 <body>
 
   <div id="scroll-progress"></div>
-  <div id="cursor-glow"></div>
-
-  <header>
+<header>
     <a href="index.html" class="nav-logo">MT<span> · Maryam Torkashvand</span></a>
     <button class="hamburger" id="hamburger" aria-label="Toggle navigation" onclick="toggleNav()">
       <span></span><span></span><span></span>
     </button>
     <nav id="main-nav">
       <a href="index.html">Home</a>
+      <a href="competencies.html">Competencies</a>
       <a href="about.html" class="active">About</a>
       <a href="experiences.html">Experience</a>
-      <a href="competencies.html">Competencies</a>
       <a href="projects/index.html">Projects</a>
       <a href="contact.html" class="nav-cta">Contact</a>
     </nav>
@@ -236,7 +229,7 @@
             </div>
           </div>
           <div class="photo-box reveal d2">
-            <span>Photo</span>
+            <img src="image/Maryam-td.png" alt="Maryam Torkashvand">
           </div>
         </div>
       </div>
@@ -254,7 +247,7 @@
             <p class="int-desc">Developing population models from family tree and census data to reconstruct historical migration, kinship networks, and settlement patterns in 19th-century United States.</p>
           </div>
           <div class="interest-card reveal d2">
-            <div class="int-icon">🔬</div>
+            <div class="int-icon">🗺️</div>
             <div class="int-title">Geospatial Data Engineering</div>
             <p class="int-desc">Designing large-scale, reproducible pipelines in Python and PostgreSQL/PostGIS to clean, geocode, and validate historical geographic records at the scale of hundreds of millions of entries.</p>
           </div>
@@ -274,7 +267,7 @@
             <p class="int-desc">Integrating large language models with human-in-the-loop validation workflows to solve ambiguous geographic text interpretation problems at scale.</p>
           </div>
           <div class="interest-card reveal d2">
-            <div class="int-icon">💧</div>
+            <div class="int-icon">🌱</div>
             <div class="int-title">Environmental Risk Assessment</div>
             <p class="int-desc">Using GIS modeling, multi-criteria decision-making, and evolutionary algorithms to evaluate groundwater vulnerability and environmental risk in aquifer systems.</p>
           </div>
@@ -290,7 +283,7 @@
 
         <div class="edu-timeline">
           <div class="edu-item reveal d1">
-            <div class="edu-dates">Aug 2022 –<br>Dec 2026</div>
+            <div class="edu-dates">Aug 2022 to<br>Dec 2026</div>
             <div>
               <div class="edu-degree">PhD, Geography</div>
               <div class="edu-field">Geographic Information Science &amp; Cartography</div>
@@ -300,7 +293,7 @@
             </div>
           </div>
           <div class="edu-item reveal d2">
-            <div class="edu-dates">Sep 2017 –<br>Sep 2020</div>
+            <div class="edu-dates">Sep 2017 to<br>Sep 2020</div>
             <div>
               <div class="edu-degree">MSc, Remote Sensing &amp; GIS</div>
               <div class="edu-field">Satellite Meteorology specialization</div>
@@ -309,7 +302,7 @@
             </div>
           </div>
           <div class="edu-item reveal d3">
-            <div class="edu-dates">Feb 2012 –<br>Mar 2014</div>
+            <div class="edu-dates">Feb 2012 to<br>Mar 2014</div>
             <div>
               <div class="edu-degree">BE, Surveying Engineering</div>
               <div class="edu-field">Surveying &amp; Geomatics Engineering</div>
@@ -330,22 +323,22 @@
             <div class="award-card reveal d1">
               <div class="award-yr">Fall 2026</div>
               <div class="award-title">Ballard and Seashore Dissertation Fellowship</div>
-              <div class="award-org">University of Iowa — $11,653</div>
+              <div class="award-org">University of Iowa · $11,653</div>
             </div>
             <div class="award-card reveal d2">
               <div class="award-yr">Spring 2026</div>
               <div class="award-title">Graduate College Post-Comprehensive Research Fellowship</div>
-              <div class="award-org">University of Iowa — $11,375</div>
+              <div class="award-org">University of Iowa · $11,375</div>
             </div>
             <div class="award-card reveal d3">
               <div class="award-yr">Summer 2025</div>
               <div class="award-title">Digital Scholarship &amp; Publishing Summer Fellowship</div>
-              <div class="award-org">University of Iowa — $5,500</div>
+              <div class="award-org">University of Iowa · $5,500</div>
             </div>
             <div class="award-card reveal d4">
               <div class="award-yr">June 2024</div>
               <div class="award-title">Best Student Paper Award</div>
-              <div class="award-org">CaGIS + UCGIS Symposium — $150</div>
+              <div class="award-org">CaGIS + UCGIS Symposium · $150</div>
             </div>
             <div class="award-card reveal d1">
               <div class="award-yr">August 2023</div>
@@ -353,7 +346,7 @@
               <div class="award-org">Geospatial Data Science at UCAR</div>
             </div>
             <div class="award-card reveal d2">
-              <div class="award-yr">2022–2026</div>
+              <div class="award-yr">2022 to 2026</div>
               <div class="award-title">Travel Grants</div>
               <div class="award-org">ACM SIGSPATIAL ($1,000) · Spatial Social Network Workshop ($400) · University of Iowa Graduate School ($1,500)</div>
             </div>
@@ -385,10 +378,6 @@
       const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
       document.getElementById('scroll-progress').style.width = pct + '%';
     });
-    const glow = document.getElementById('cursor-glow');
-    if (window.innerWidth > 768) {
-      document.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; });
-    } else { glow.style.display = 'none'; }
     function toggleNav() { document.getElementById('main-nav').classList.toggle('open'); }
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
